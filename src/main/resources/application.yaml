@@ -1,0 +1,12 @@
+# https://docs.camunda.io/docs/apis-tools/spring-zeebe-sdk/getting-started/
+# https://docs.camunda.io/docs/apis-tools/spring-zeebe-sdk/configuration/
+
+camunda:
+  client:
+    mode: saas
+    auth:
+      client-id: ygp11vMiBrU~.Ymfubmr74S-gf7Hfb1N
+      client-secret: 4tRgTU3gplpHLw-_icG2rb.4.g6BYeUYd0hRnpyo_xyn-B06I9h9oeoe3GA6puc9
+    cloud:
+      cluster-id: a3f8d3d1-ab66-4b82-971f-2cae56005ef6
+      region: sin-1
