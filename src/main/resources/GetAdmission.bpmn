@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="8146b39" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.7.0">
+  <bpmn:process id="Process_0synn4n" name="GetAdmission" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="admission letter received">
+      <bpmn:outgoing>Flow_03v3fpc</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1r3sjdz" messageRef="Message_0qfc9bp" />
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_04fzgo0" name="Validate Admission">
+      <bpmn:incoming>Flow_03v3fpc</bpmn:incoming>
+      <bpmn:outgoing>Flow_02msro8</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_03v3fpc" sourceRef="StartEvent_1" targetRef="Activity_04fzgo0" />
+    <bpmn:endEvent id="Event_0kn59vn" name="admission granted">
+      <bpmn:incoming>Flow_02msro8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_02msro8" sourceRef="Activity_04fzgo0" targetRef="Event_0kn59vn" />
+  </bpmn:process>
+  <bpmn:message id="Message_0qfc9bp" name="admissionLetter" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0synn4n">
+      <bpmndi:BPMNShape id="Event_0vp7syt_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="312" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="291" y="215" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04fzgo0_di" bpmnElement="Activity_04fzgo0">
+        <dc:Bounds x="400" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0kn59vn_di" bpmnElement="Event_0kn59vn">
+        <dc:Bounds x="552" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="545" y="215" width="50" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_03v3fpc_di" bpmnElement="Flow_03v3fpc">
+        <di:waypoint x="348" y="190" />
+        <di:waypoint x="400" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02msro8_di" bpmnElement="Flow_02msro8">
+        <di:waypoint x="500" y="190" />
+        <di:waypoint x="552" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

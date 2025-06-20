@@ -13,7 +13,8 @@ import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.spring.client.annotation.Deployment;
 
 @SpringBootApplication
-@Deployment(resources = { "classpath:AdmissionProcess.bpmn", "classpath:admissionForm.form" })
+@Deployment(resources = { "classpath:AdmissionProcess.bpmn", "classpath:GetAdmission.bpmn", "classpath:admissionForm.form",
+		"classpath:Collect More Details.form", "classpath:Enter Interview result.form" })
 public class AdmissionApplication implements CommandLineRunner {
 
 	@Autowired
@@ -26,15 +27,15 @@ public class AdmissionApplication implements CommandLineRunner {
 	}
 
 	/*
-	 * @Override public void run(String... args) throws Exception { // TODO
-	 * Auto-generated method stub
+	 * @Override public void run(String... args) throws Exception {
+	 * 
 	 * 
 	 * }
 	 */
 
 	@Override
 	public void run(final String... args) {
-		var bpmnProcessId = "admissionProcess";
+		var bpmnProcessId = "Process_1pfarrz";
 		var event = zeebeClient.newCreateInstanceCommand().bpmnProcessId(bpmnProcessId).latestVersion()
 				.variables(Map.of("startedFrom", "Springboot")).send().join();
 		LOG.info("started a process instance: {}", event.getProcessInstanceKey());

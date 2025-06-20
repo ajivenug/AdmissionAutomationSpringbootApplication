@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.harjit.admission.service.AdmissionLetterMessage;
 import com.harjit.admission.service.ValidateApplication;
 
 import io.camunda.zeebe.client.api.response.ActivatedJob;
@@ -22,6 +23,9 @@ public class AdmissionWorker {
 
 	@Autowired
 	private ValidateApplication validateApplication;
+	
+	@Autowired
+	private AdmissionLetterMessage admissionLetterMessage;
 
 	@JobWorker(type = "validate-admission-details", fetchVariables = { "name", "age", "department" })
 	public Map<String, Object> validateAdmissionDetails(final JobClient client, final ActivatedJob job) {
@@ -71,4 +75,51 @@ public class AdmissionWorker {
 			@Variable(name = "name") String name) {
 		LOG.info("Sorry "+name+" Time Expired to take the exam!");	
 	}
+	
+	@JobWorker(type = "approve-second-level")
+	public Map<String, Boolean> approveSecondLevel(final JobClient client, final ActivatedJob job) {
+		LOG.info("Approved Second Level");
+		return Map.of("secondLevelApproval", true);
+	}
+	
+	@JobWorker(type = "reject-second-level")
+	public Map<String, Boolean> rejectSecondLevel(final JobClient client, final ActivatedJob job) {
+		LOG.info("Rejected Second Level");
+		return Map.of("secondLevelApproval", false);
+	}
+	
+	@JobWorker(type = "schedule-interview")
+	public void scheduleInterview(final JobClient client, final ActivatedJob job,
+			@Variable(name = "name") String name, @Variable(name = "applicationId") String applicationId) {
+		LOG.info("Interview has been Scheduled for "+name+" with Application Id "+ applicationId);	
+	}
+	
+	@JobWorker(type = "conduct-bgc")
+	public Map<String, Boolean> conductBGC(final JobClient client, final ActivatedJob job,
+			@Variable(name = "name") String name, @Variable(name = "applicationId") String applicationId) {
+		LOG.info("BGC has been completed for "+name+" with Application Id "+ applicationId);
+		return Map.of("bgc",true);
+	}
+	
+	@JobWorker(type = "reject-third-level")
+	public Map<String, Boolean> rejectThirdLevel(final JobClient client, final ActivatedJob job) {
+		LOG.info("Rejected Third Level");
+		return Map.of("thirdLevelApproval", false);
+	}
+	
+	@JobWorker(type = "send-admission-letter")
+	public void sendAdmissionLetter(final JobClient client, final ActivatedJob job, @Variable(name="applicationId") String applicationId) {
+		try {
+			LOG.info("ApplicationId: {}", applicationId);
+			admissionLetterMessage.sendAdmissionLetterMessage(applicationId);
+
+		} catch (Exception e) {
+			throw new ZeebeBpmnError("SEND_FAILED", "Message Send failed!", null);
+		}
+	}
+	
+	
+	
+	
+
 }
