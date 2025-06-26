@@ -1,5 +1,8 @@
 package com.harjit.admission.workers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -23,7 +26,7 @@ public class AdmissionWorker {
 
 	@Autowired
 	private ValidateApplication validateApplication;
-	
+
 	@Autowired
 	private AdmissionLetterMessage admissionLetterMessage;
 
@@ -45,70 +48,110 @@ public class AdmissionWorker {
 		}
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	@JobWorker(type = "create-milestone")
+	public Map<String, Object> createMilestones(final JobClient client, final ActivatedJob job,
+			@Variable(name = "name") String name, @Variable(name = "milestone") String milestone,
+			@Variable(name = "milestoneStatus") Object milestoneStatus) {
+		Map<String, Object> milestoneStatusMap;
+
+		if (milestoneStatus == null) {
+			milestoneStatusMap = new HashMap<>();
+		} else {
+			milestoneStatusMap = (Map<String, Object>) milestoneStatus;
+		}
+		LOG.info(milestone + "Milestones Created for " + name);
+		milestoneStatusMap.put(milestone, "Init");
+		LOG.info("Milestone Status: " + milestoneStatusMap);
+		return Map.ofEntries(Map.entry("MilestoneName", milestone), Map.entry("milestoneStatus", milestoneStatusMap));
+
+	}
+
 	@JobWorker(type = "approve-first-level")
-	public Map<String, Boolean> approveFirstLevel(final JobClient client, final ActivatedJob job) {
+	public Map<String, Map<String, String>> approveFirstLevel(final JobClient client, final ActivatedJob job,
+			@Variable(name = "milestoneListArray") List<String> milestones,
+			@Variable(name = "milestoneStatus") Map<String, String> milestoneStatus) {
 		LOG.info("Approved First Level");
-		return Map.of("firstLevelApproval", true);
+		String milestoneName = milestones.get(0);
+		milestoneStatus.put(milestoneName, "Approved");
+		return Map.of("milestoneStatus", milestoneStatus);
 	}
 
 	@JobWorker(type = "reject-first-level")
-	public Map<String, Boolean> rejectFirstLevel(final JobClient client, final ActivatedJob job) {
+	public Map<String, Map<String, String>> rejectFirstLevel(final JobClient client, final ActivatedJob job,
+			@Variable(name = "milestoneListArray") List<String> milestones,
+			@Variable(name = "milestoneStatus") Map<String, String> milestoneStatus) {
 		LOG.info("Rejected First Level");
-		return Map.of("firstLevelApproval", false);
+		String milestoneName = milestones.get(0);
+		milestoneStatus.put(milestoneName, "Rejected");
+		return Map.of("milestoneStatus", milestoneStatus);
 	}
 
 	@JobWorker(type = "schedule-exam")
-	public void scheduleExam(final JobClient client, final ActivatedJob job,
-			@Variable(name = "name") String name, @Variable(name = "applicationId") String applicationId) {
-		LOG.info("Exam has been Scheduled for "+name+" with Application Id "+ applicationId);	
-	}
-	
-	@JobWorker(type = "exam-failed-notification")
-	public void examFailedNotif(final JobClient client, final ActivatedJob job,
-			@Variable(name = "name") String name) {
-		LOG.info("Sorry "+name+" You have failed to qualify for next round!");	
+	public void scheduleExam(final JobClient client, final ActivatedJob job, @Variable(name = "name") String name,
+			@Variable(name = "applicationId") String applicationId) {
+		LOG.info("Exam has been Scheduled for " + name + " with Application Id " + applicationId);
 	}
 
-	
+	@JobWorker(type = "exam-failed-notification")
+	public void examFailedNotif(final JobClient client, final ActivatedJob job, @Variable(name = "name") String name) {
+		LOG.info("Sorry " + name + " You have failed to qualify for next round!");
+	}
+
 	@JobWorker(type = "exam-time-expired-notification")
 	public void examTimeExpiredNotif(final JobClient client, final ActivatedJob job,
 			@Variable(name = "name") String name) {
-		LOG.info("Sorry "+name+" Time Expired to take the exam!");	
+		LOG.info("Sorry " + name + " Time Expired to take the exam!");
 	}
-	
+
 	@JobWorker(type = "approve-second-level")
-	public Map<String, Boolean> approveSecondLevel(final JobClient client, final ActivatedJob job) {
+	public Map<String, Map<String, String>> approveSecondLevel(final JobClient client, final ActivatedJob job,
+			@Variable(name = "milestoneListArray") List<String> milestones,
+			@Variable(name = "milestoneStatus") Map<String, String> milestoneStatus) {
 		LOG.info("Approved Second Level");
-		return Map.of("secondLevelApproval", true);
+		String milestoneName = milestones.get(1);
+		milestoneStatus.put(milestoneName, "Approved");
+		return Map.of("milestoneStatus", milestoneStatus);
+
 	}
-	
+
 	@JobWorker(type = "reject-second-level")
-	public Map<String, Boolean> rejectSecondLevel(final JobClient client, final ActivatedJob job) {
+	public Map<String, Map<String, String>> rejectSecondLevel(final JobClient client, final ActivatedJob job,
+			@Variable(name = "milestones") List<String> milestones,
+			@Variable(name = "milestoneStatus") Map<String, String> milestoneStatus) {
 		LOG.info("Rejected Second Level");
-		return Map.of("secondLevelApproval", false);
+		String milestoneName = milestones.get(1);
+		milestoneStatus.put(milestoneName, "Approved");
+		return Map.of("milestoneStatus", milestoneStatus);
 	}
-	
+
 	@JobWorker(type = "schedule-interview")
-	public void scheduleInterview(final JobClient client, final ActivatedJob job,
-			@Variable(name = "name") String name, @Variable(name = "applicationId") String applicationId) {
-		LOG.info("Interview has been Scheduled for "+name+" with Application Id "+ applicationId);	
+	public void scheduleInterview(final JobClient client, final ActivatedJob job, @Variable(name = "name") String name,
+			@Variable(name = "applicationId") String applicationId) {
+		LOG.info("Interview has been Scheduled for " + name + " with Application Id " + applicationId);
 	}
-	
+
 	@JobWorker(type = "conduct-bgc")
 	public Map<String, Boolean> conductBGC(final JobClient client, final ActivatedJob job,
 			@Variable(name = "name") String name, @Variable(name = "applicationId") String applicationId) {
-		LOG.info("BGC has been completed for "+name+" with Application Id "+ applicationId);
-		return Map.of("bgc",true);
+		LOG.info("BGC has been completed for " + name + " with Application Id " + applicationId);
+		return Map.of("bgc", true);
 	}
-	
+
 	@JobWorker(type = "reject-third-level")
-	public Map<String, Boolean> rejectThirdLevel(final JobClient client, final ActivatedJob job) {
+	public Map<String, Map<String, String>> rejectThirdLevel(final JobClient client, final ActivatedJob job,
+			@Variable(name = "milestones") List<String> milestones,
+			@Variable(name = "milestoneStatus") Map<String, String> milestoneStatus) {
 		LOG.info("Rejected Third Level");
-		return Map.of("thirdLevelApproval", false);
+		String milestoneName = milestones.get(2);
+		milestoneStatus.put(milestoneName, "Rejected");
+		return Map.of("milestoneStatus", milestoneStatus);
 	}
-	
+
 	@JobWorker(type = "send-admission-letter")
-	public void sendAdmissionLetter(final JobClient client, final ActivatedJob job, @Variable(name="applicationId") String applicationId) {
+	public void sendAdmissionLetter(final JobClient client, final ActivatedJob job,
+			@Variable(name = "applicationId") String applicationId) {
 		try {
 			LOG.info("ApplicationId: {}", applicationId);
 			admissionLetterMessage.sendAdmissionLetterMessage(applicationId);
@@ -117,9 +160,5 @@ public class AdmissionWorker {
 			throw new ZeebeBpmnError("SEND_FAILED", "Message Send failed!", null);
 		}
 	}
-	
-	
-	
-	
 
 }
