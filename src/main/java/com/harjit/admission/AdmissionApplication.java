@@ -15,7 +15,9 @@ import io.camunda.zeebe.spring.client.annotation.Deployment;
 @SpringBootApplication
 
   @Deployment(resources = { "classpath:AdmissionProcess.bpmn",
-  "classpath:GetAdmission.bpmn", "classpath:admissionForm.form",
+  "classpath:GetAdmission.bpmn",
+  "classpath:MessageTrigger.bpmn",
+  "classpath:admissionForm.form",
   "classpath:Collect More Details.form",
   "classpath:Enter Interview result.form",
   "classpath:ValidateAdmissionDetails.dmn"})
