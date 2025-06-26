@@ -118,7 +118,7 @@ public class AdmissionWorker {
 
 	@JobWorker(type = "reject-second-level")
 	public Map<String, Map<String, String>> rejectSecondLevel(final JobClient client, final ActivatedJob job,
-			@Variable(name = "milestones") List<String> milestones,
+			@Variable(name = "milestoneListArray") List<String> milestones,
 			@Variable(name = "milestoneStatus") Map<String, String> milestoneStatus) {
 		LOG.info("Rejected Second Level");
 		String milestoneName = milestones.get(1);
@@ -141,7 +141,7 @@ public class AdmissionWorker {
 
 	@JobWorker(type = "reject-third-level")
 	public Map<String, Map<String, String>> rejectThirdLevel(final JobClient client, final ActivatedJob job,
-			@Variable(name = "milestones") List<String> milestones,
+			@Variable(name = "milestoneListArray") List<String> milestones,
 			@Variable(name = "milestoneStatus") Map<String, String> milestoneStatus) {
 		LOG.info("Rejected Third Level");
 		String milestoneName = milestones.get(2);
@@ -151,10 +151,11 @@ public class AdmissionWorker {
 
 	@JobWorker(type = "send-admission-letter")
 	public void sendAdmissionLetter(final JobClient client, final ActivatedJob job,
-			@Variable(name = "applicationId") String applicationId) {
+			@Variable(name = "applicationId") String applicationId, @Variable(name = "acdemicValidation") String acdemicValidation,
+			@Variable(name = "branchDecision") String branchDecision) {
 		try {
 			LOG.info("ApplicationId: {}", applicationId);
-			admissionLetterMessage.sendAdmissionLetterMessage(applicationId);
+			admissionLetterMessage.sendAdmissionLetterMessage(applicationId,acdemicValidation,branchDecision);
 
 		} catch (Exception e) {
 			throw new ZeebeBpmnError("SEND_FAILED", "Message Send failed!", null);

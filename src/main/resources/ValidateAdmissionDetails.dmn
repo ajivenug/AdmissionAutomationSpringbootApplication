@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_0i927j1" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="e97ac9f" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.7.0">
+  <decision id="Decision_00ry04e" name="academicValidation">
+    <informationRequirement id="InformationRequirement_1h1j8xe">
+      <requiredInput href="#InputData_07kwzai" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_09sy1wg">
+      <requiredInput href="#InputData_0ziu9ic" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1cqzl27">
+      <input id="InputClause_0efq2rz" label="qualification">
+        <inputExpression id="LiteralExpression_1kr3k4w" typeRef="string">
+          <text>qualification</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0tptssb" label="percentage">
+        <inputExpression id="LiteralExpression_0kp0tuq" typeRef="number">
+          <text>percentage</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1i4lvqo" label="academicValidation" name="acdemicValidation" typeRef="string">
+        <outputValues id="UnaryTests_0zuuayy">
+          <text>"good","average","bad"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_1pppy68">
+        <inputEntry id="UnaryTests_0uamixy">
+          <text>"plusTwo"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qsadhx">
+          <text>&lt;75</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qxdl62">
+          <text>"bad"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1xkdy56">
+        <inputEntry id="UnaryTests_0poqao1">
+          <text>"plusTwo"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_011ewm7">
+          <text>[75..89]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vlo0g5">
+          <text>"average"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0vaenyc">
+        <inputEntry id="UnaryTests_1bxolqf">
+          <text>"plusTwo"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14nmwm6">
+          <text>&gt;=90</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_101gkc4">
+          <text>"good"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0mf49uu">
+        <inputEntry id="UnaryTests_1lz3k85">
+          <text>"diploma"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c3cc8u">
+          <text>&lt;70</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03gse8y">
+          <text>"bad"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08crg1y">
+        <inputEntry id="UnaryTests_1riqo23">
+          <text>"diploma"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oxz21z">
+          <text>[70..84]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1o7kdgt">
+          <text>"average"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0be7j47">
+        <inputEntry id="UnaryTests_03207a0">
+          <text>"diploma"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vfzfc8">
+          <text>&gt;=85</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15y8sl7">
+          <text>"good"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_07kwzai" name="percentage" />
+  <inputData id="InputData_0ziu9ic" name="qualification" />
+  <decision id="Decision_1s0mvi5" name="branchDecision">
+    <informationRequirement id="InformationRequirement_07nol2s">
+      <requiredInput href="#InputData_07kwzai" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0zpxjmh">
+      <requiredInput href="#InputData_1j11luc" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0aq2424">
+      <input id="InputClause_0qznoim" label="percentage">
+        <inputExpression id="LiteralExpression_0ps06ql" typeRef="number">
+          <text>percentage</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1wdobx9" label="department">
+        <inputExpression id="LiteralExpression_1t01irk" typeRef="string">
+          <text>department</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_106eryz" name="branchDecision" typeRef="string">
+        <outputValues id="UnaryTests_0gdo3dx">
+          <text>"CNF","WL","NA"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_10dry8k">
+        <inputEntry id="UnaryTests_1ok9ycx">
+          <text>&gt;=90</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ur3x70">
+          <text>"ME"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1uzz6go">
+          <text>"CNF"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1uutrp8">
+        <inputEntry id="UnaryTests_18jfqew">
+          <text>[80..89]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1h31xml">
+          <text>"ME"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1l8qnyv">
+          <text>"WL"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09n1qqe">
+        <inputEntry id="UnaryTests_055kb4s">
+          <text>&lt;80</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ir8vqb">
+          <text>"ME"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0agcr3i">
+          <text>"NA"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_134a6od">
+        <inputEntry id="UnaryTests_1x7zrib">
+          <text>&gt;=85</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wkizxl">
+          <text>"EEE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ih6qee">
+          <text>"CNF"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qtpl0l">
+        <inputEntry id="UnaryTests_13hi43l">
+          <text>[75..84]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_015doqe">
+          <text>"EEE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1hf8n8c">
+          <text>"WL"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1214bzx">
+        <inputEntry id="UnaryTests_1yihrad">
+          <text>&lt;75</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wmlnjn">
+          <text>"EEE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0x4srwz">
+          <text>"NA"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_008g4xh">
+        <inputEntry id="UnaryTests_1s2ubsn">
+          <text>&gt;=80</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dyo1nr">
+          <text>"ECE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0o1wfah">
+          <text>"CNF"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1c0wi4a">
+        <inputEntry id="UnaryTests_15e49og">
+          <text>[70..79]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1akaqji">
+          <text>"ECE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vkyw4n">
+          <text>"WL"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tlyy2k">
+        <inputEntry id="UnaryTests_161cpn5">
+          <text>&lt;70</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1pwiyyu">
+          <text>"ECE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05sjrj6">
+          <text>"NA"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1j11luc" name="department" />
+  <decision id="Decision_0jplexr" name="admissionApproval">
+    <informationRequirement id="InformationRequirement_1jk6vh8">
+      <requiredDecision href="#Decision_00ry04e" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_119c5fg">
+      <requiredDecision href="#Decision_1s0mvi5" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0lyunmw">
+      <input id="InputClause_044di7j" label="AcademicValidation">
+        <inputExpression id="LiteralExpression_19mtf0e" typeRef="string">
+          <text>acdemicValidation</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1m0q9uj" label="BranchDecision">
+        <inputExpression id="LiteralExpression_0g1pu2q" typeRef="string">
+          <text>branchDecision</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1giwv7e" label="admissionApproval" name="admissionApproval" typeRef="boolean" />
+      <rule id="DecisionRule_0patt5w">
+        <inputEntry id="UnaryTests_0f0oovq">
+          <text>"bad"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ckn7r3">
+          <text>"CNF"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1w3480s">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0y0c8pe">
+        <inputEntry id="UnaryTests_0l2lpc5">
+          <text>"bad"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vf2v85">
+          <text>"WL"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04ug42q">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1fklxyi">
+        <inputEntry id="UnaryTests_1l91494">
+          <text>"bad"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01jj9me">
+          <text>"NA"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ctk45y">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0lxq5ek">
+        <inputEntry id="UnaryTests_1w2x00h">
+          <text>"average"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bj99na">
+          <text>"CNF"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0oyekh6">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0fys1ko">
+        <inputEntry id="UnaryTests_11bxz5c">
+          <text>"average"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ms881d">
+          <text>"WL"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_13wrwe8">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0l8c000">
+        <inputEntry id="UnaryTests_0vntq9y">
+          <text>"average"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wxd0my">
+          <text>"NA"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1sv7b9o">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1sugua0">
+        <inputEntry id="UnaryTests_0ej777z">
+          <text>"good"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xhcfoh">
+          <text>"CNF"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0nzdg1x">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_19irt89">
+        <inputEntry id="UnaryTests_05p6lox">
+          <text>"good"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0u6a1q7">
+          <text>"WL"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0atqmfx">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0fherrc">
+        <inputEntry id="UnaryTests_18jk8x1">
+          <text>"good"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1waf1wg">
+          <text>"NA"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0lx0h1p">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_10k9wnl" dmnElementRef="Decision_00ry04e">
+        <dc:Bounds height="80" width="180" x="210" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0kg0r3d" dmnElementRef="InputData_07kwzai">
+        <dc:Bounds height="45" width="125" x="337" y="357" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1h0g4we" dmnElementRef="InformationRequirement_1h1j8xe">
+        <di:waypoint x="400" y="357" />
+        <di:waypoint x="330" y="320" />
+        <di:waypoint x="330" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1yu47p4" dmnElementRef="InputData_0ziu9ic">
+        <dc:Bounds height="45" width="125" x="158" y="358" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0acugre" dmnElementRef="InformationRequirement_09sy1wg">
+        <di:waypoint x="221" y="358" />
+        <di:waypoint x="270" y="320" />
+        <di:waypoint x="270" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0d4k2nf" dmnElementRef="Decision_1s0mvi5">
+        <dc:Bounds height="80" width="180" x="470" y="220" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0whyz5m" dmnElementRef="InformationRequirement_07nol2s">
+        <di:waypoint x="400" y="357" />
+        <di:waypoint x="530" y="320" />
+        <di:waypoint x="530" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1is6x44" dmnElementRef="InputData_1j11luc">
+        <dc:Bounds height="45" width="125" x="548" y="359" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0bb9c2c" dmnElementRef="InformationRequirement_0zpxjmh">
+        <di:waypoint x="611" y="359" />
+        <di:waypoint x="590" y="320" />
+        <di:waypoint x="590" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0h0up3c" dmnElementRef="InformationRequirement_1jk6vh8">
+        <di:waypoint x="300" y="220" />
+        <di:waypoint x="400" y="180" />
+        <di:waypoint x="400" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1razxkf" dmnElementRef="InformationRequirement_119c5fg">
+        <di:waypoint x="560" y="220" />
+        <di:waypoint x="460" y="180" />
+        <di:waypoint x="460" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_13tbfqx" dmnElementRef="Decision_0jplexr">
+        <dc:Bounds height="80" width="180" x="340" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -16,7 +16,7 @@ public class AdmissionLetterMessage {
 	        this.zeebeClient = zeebeClient;
 	    }
 
-	    public void sendAdmissionLetterMessage(String applicationId) {
+	    public void sendAdmissionLetterMessage(String applicationId, String acdemicValidation, String branchDecision ) {
 	        zeebeClient.newPublishMessageCommand()
 	                .messageName("admissionLetter")  // 👈 Message name in BPMN
 	                .correlationKey(applicationId)         // 👈 Must match process variable
@@ -25,6 +25,7 @@ public class AdmissionLetterMessage {
 	                .join();
 
 	        LOG.info("Admission letter sent to process instance for studentId: " + applicationId);
+	        LOG.info("Since your Academics is" + acdemicValidation+" your selected branch is "+branchDecision);
 	    }
 
 }
